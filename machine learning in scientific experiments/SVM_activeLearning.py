@@ -57,7 +57,7 @@ def SVM_print(clf, known_indexes, unknown_indexes, new_index=False, title=False,
     if name:
         fig.set_size_inches((10, 6))
         plt.savefig(name, dpi=100)
-    #plt.show()
+    plt.show()
     return
 
 
