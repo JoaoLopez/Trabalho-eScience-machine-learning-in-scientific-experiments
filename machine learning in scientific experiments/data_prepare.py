@@ -51,6 +51,11 @@ for current_file in MOX_file_name:
     MOX_file=open(current_file,'r')
     lines=MOX_file.readlines()
     MOX_file.close()
+
+    #ESSE PROCESSAMENTO (ATÉ A LINHA 175 COMANDO
+    #for write_num in range(0,len(CO_concentration_data)):)
+    #PODERIA SER FEITO EM UMA FUNÇÃO DETERMINÍSTICA 
+    #SERIA NECESSÁRIO APENAS REMOVER O COMANDO print("current row: ",i)
     data_row=[]
     data_column=[]
     available_CO_concentration_value=['0','2.22','4.44','6.67','8.89','11.11','13.33','15.56','17.78','20']
