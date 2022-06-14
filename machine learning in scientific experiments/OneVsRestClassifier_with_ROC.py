@@ -11,6 +11,10 @@ from numpy import interp
 # to acquire the dataset
 MOX_path="./MOX Conclusion_test.csv"
 MOX_data=pd.read_csv(MOX_path)
+
+#ESSE PROCESSAMENTO ATÉ O FINAL DO ARQUIVO PODERIA SER FEITO EM UMA FUNÇÃO DETERMINÍSTICA
+#BASTARIA REMOVER AS MENSAGENS DE PRINT
+#É NECESSÁRIO TESTAR POIS UTILIZA ALGUNS MODELOS PREDITIVOS QUE NÃO TENHO CERTEZA SE SÃO DETERMINÍSTICOS
 MOX_features=["Humidity"
               ,"R1_Up_Slope","R1_Down_Slope","R2_Up_Slope","R2_Down_Slope","R3_Up_Slope","R3_Down_Slope"
               ,"R4_Up_Slope","R4_Down_Slope","R5_Up_Slope","R5_Down_Slope","R6_Up_Slope","R6_Down_Slope"
@@ -21,11 +25,16 @@ X=MOX_data[MOX_features] # X as feature
 Y=MOX_data.CO_Concentration # Y as prediction target
 label_Y=label_binarize(Y, classes=[0,1,2,3,4,5,6,7,8,9]) # CO concentration 0, 2.22, 4.44, 6.67, 8.89, 11.11, 13.33, 15.56, 17.78, 20 are replaced by 0 to 9
 CO_classes = label_Y.shape[1] # to set all the classes for CO concentration
+
+#train_test_split NÃO É DETERMINÍSTICO POIS DIVIDE AS AMOSTRAS DE TREINAMENTO E TESTE ALEATORIAMENTE
+#svm.SVC TAMBÉM PARECE NÃO SER DETERMINÍSTICO
 train_X, valid_X, train_Y, valid_Y = train_test_split(X, label_Y)
 MOX_classifier = OneVsRestClassifier(svm.SVC(kernel='linear', probability=True,random_state=np.random.RandomState(0)))
 y_score = MOX_classifier.fit(train_X, train_Y).decision_function(valid_X)
 
 # to get the fpr and tpr
+#ESSE PROCESSAMENTO ATÉ A CRIAÇÃO DO GRÁFICO (plt.figure()) PARECE SER DETERMINÍSTICO
+#MAS É NECESSÁRIO TESTAR
 fpr=dict()
 tpr=dict()
 roc_auc=dict()

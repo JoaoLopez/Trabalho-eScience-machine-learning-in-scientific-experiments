@@ -5,6 +5,7 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import KFold
 
+#PARECE SER DETERMINÍSTICO (NECESSÁRIO TESTAR POIS UTILIZA UM CLASSIFICADOR DE K-VIZINHOS)
 def MAE_cal(train_X,valid_X,train_Y,valid_Y):
     MOX_model = KNeighborsClassifier(n_neighbors=3)
     MOX_model.fit(train_X, train_Y.astype('int'))
@@ -15,6 +16,10 @@ def MAE_cal(train_X,valid_X,train_Y,valid_Y):
 # to acquire the dataset
 MOX_path="./MOX Conclusion.csv"
 MOX_data=pd.read_csv(MOX_path)
+
+#ESSE PROCESSAMENTO ATÉ O FINAL DO ARQUIVO PODERIA SER FEITO EM UMA FUNÇÃO DETERMINÍSTICA
+#BASTARIA REMOVER AS MENSAGENS DE PRINT
+#É NECESSÁRIO TESTAR POIS UTILIZA ALGUNS MODELOS PREDITIVOS QUE NÃO TENHO CERTEZA SE SÃO DETERMINÍSTICOS
 MOX_features=["Humidity"
               ,"R1_Up_Slope","R1_Down_Slope","R2_Up_Slope","R2_Down_Slope","R3_Up_Slope","R3_Down_Slope"
               ,"R4_Up_Slope","R4_Down_Slope","R5_Up_Slope","R5_Down_Slope","R6_Up_Slope","R6_Down_Slope"

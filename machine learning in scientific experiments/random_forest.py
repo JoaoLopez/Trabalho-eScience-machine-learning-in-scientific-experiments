@@ -5,6 +5,7 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import KFold
 import numpy as np
 
+#NÃO É DETERMINÍSTICO POIS O MODELO UTILIZA RANDOMICIDADE (RandomForestClassifier())
 def MAE_cal(train_X,valid_X,train_Y,valid_Y):
     MOX_model = RandomForestClassifier(random_state=1)
     MOX_model.fit(train_X, train_Y.astype('int'))

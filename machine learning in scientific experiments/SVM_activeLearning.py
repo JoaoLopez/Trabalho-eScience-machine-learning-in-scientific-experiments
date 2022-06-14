@@ -7,10 +7,13 @@ from sklearn.model_selection import train_test_split, ShuffleSplit, learning_cur
 import imageio as io
 import os
 
+#NÃO É DETERMINÍSTICA PORQUE UTILIZA VARIÁVEIS GLOBAIS (clf0, X_pool)
+#MAS PASSANDO ESSAS VARIÁVEIS COMO PARÂMETRO A FUNÇÃO SERIA DETERMINÍSTICA
 def ambiguous_acquire(data_index):
     res = np.argmin(np.abs(list(clf0.decision_function(X_pool.iloc[data_index]))))
     return data_index[res]
 
+#NÃO É DETERMINÍSTICA PORQUE UTILIZA VARIÁVEIS GLOBAIS (min_X, max_X) E GERA GRÁFICOS (plt.figure())
 def SVM_print(clf, known_indexes, unknown_indexes, new_index=False, title=False, name=False):
     #SVM training part(already known)
     SVM_train_X = X_pool.iloc[known_indexes]
@@ -63,6 +66,8 @@ def SVM_print(clf, known_indexes, unknown_indexes, new_index=False, title=False,
 
 MOX_path="./MOX Conclusion.csv"
 MOX_data=pd.read_csv(MOX_path)
+
+#ESSE PROCESSAMENTO ATÉ plt.figure PODERIA SER FEITO EM UMA FUNÇÃO DETERMINÍSTICA
 # print the scatterplot with the factor of R12_Down_Slope and R14_Up_Slope
 # So these two factor will be used to identify the CO concentration(0 or 20?)
 MOX_feature1="R12_Down_Slope"
@@ -98,6 +103,7 @@ fig1.set_size_inches((10, 6))
 plt.savefig("./scatter.png", dpi=100)
 plt.show()
 
+#ESSE PROCESSAMENTO ATÉ plt.figure PODERIA SER FEITO EM UMA FUNÇÃO DETERMINÍSTICA
 Y1 = Y1.astype(dtype=np.uint8) # to change the type of Y1
 # to establish a model with the use of SVM, and acquire the information of the SVM line
 clf0 = LinearSVC()
@@ -140,6 +146,8 @@ plt.show()
 
 X_pool, X_test, y_pool, y_test = train_test_split(X1, Y1, test_size=0.2, random_state=1)
 # to set the index again
+
+#ESSE PROCESSAMENTO ATÉ img_folder =  PODERIA SER FEITO EM UMA FUNÇÃO DETERMINÍSTICA
 X_pool, X_test, y_pool, y_test = X_pool.reset_index(drop=True), X_test.reset_index(drop=True), y_pool.reset_index(drop=True), y_test.reset_index(drop=True)
 
 
@@ -170,6 +178,8 @@ name = img_folder + ("activeLearning_img0.jpg")
 SVM_print(clf, known_indexes, unknown_indexes, new_index, title, name)
 filenames.append(name)
 for i in range(30):
+    #O PROCESSAMENTO ATÉ clf.fit() PODE SER EXECUTADO EM UMA FUNÇÃO DETERMINÍSTICA
+    #SÓ É NECESSÁRIO TESTAR DEVIDO A LinearSVC()
     # move next_to_learn dot to known_indexes
     known_indexes.append(new_index)
     train_X = X_pool.iloc[known_indexes]
